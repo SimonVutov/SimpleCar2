@@ -1,0 +1,598 @@
+newmtl Grille40011Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.0322335 0.0318 0.03311 
+
+d 1
+
+Ns 255
+
+map_Ka Grille40011_diff.png
+map_Kd Grille40011_diff.png
+map_d Grille40011_diff.png
+
+map_Bump Grille40011_nmap.png
+
+map_Ns Grille40011_spec.png
+
+newmtl Grille60011Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.0322335 0.0318 0.03311 
+
+d 1
+
+Ns 255
+
+map_Ka Grille60011_diff.png
+map_Kd Grille60011_diff.png
+map_d Grille60011_diff.png
+
+map_Bump Grille60011_nmap.png
+
+map_Ns Grille60011_spec.png
+
+newmtl Needle1Mtl
+Material Color
+Ka 0.687031 0.38891 0
+Kd 0.687031 0.38891 0
+Ks 0.0619675 0.0350782 0 
+
+d 1
+
+Ns 0
+
+newmtl Carbon1m0021Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.0322335 0.0318 0.03311 
+
+d 1
+
+Ns 255
+
+map_Ka Carbon1m0021_diff.png
+map_Kd Carbon1m0021_diff.png
+map_d Carbon1m0021_diff.png
+
+map_Bump Carbon1m0021_nmap.png
+
+map_Ns Carbon1m0021_spec.png
+
+newmtl Grille20021Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.0322335 0.0318 0.03311 
+
+d 1
+
+Ns 255
+
+map_Ka Grille20021_diff.png
+map_Kd Grille20021_diff.png
+map_d Grille20021_diff.png
+
+map_Bump Grille20021_nmap.png
+
+map_Ns Grille20021_spec.png
+
+newmtl Grille40021Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.0322335 0.0318 0.03311 
+
+d 1
+
+Ns 255
+
+map_Ka Grille40021_diff.png
+map_Kd Grille40021_diff.png
+map_d Grille40021_diff.png
+
+newmtl Grille71Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.0322335 0.0318 0.03311 
+
+d 1
+
+Ns 255
+
+map_Ka Grille71_diff.png
+map_Kd Grille71_diff.png
+map_d Grille71_diff.png
+
+newmtl Grille81Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.0322335 0.0318 0.03311 
+
+d 1
+
+Ns 255
+
+map_Ka Grille81_diff.png
+map_Kd Grille81_diff.png
+map_d Grille81_diff.png
+
+newmtl Grille30021Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.0322335 0.0318 0.03311 
+
+d 1
+
+Ns 255
+
+map_Ka Grille30021_diff.png
+map_Kd Grille30021_diff.png
+map_d Grille30021_diff.png
+
+map_Bump Grille30021_nmap.png
+
+map_Ns Grille30021_spec.png
+
+newmtl Dashpadscreen1Mtl
+Material Color
+Ka 0.00258583 0.00258583 0.00258583
+Kd 0.00258583 0.00258583 0.00258583
+Ks 0.00102419 0.00102419 0.00102419 
+
+d 0.301961
+
+Ns 0
+
+newmtl Interior2091Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.0322335 0.0318 0.03311 
+
+d 1
+
+Ns 255
+
+map_Ka Interior2091_diff.png
+map_Kd Interior2091_diff.png
+map_d Interior2091_diff.png
+
+map_Bump Interior2091_nmap.png
+
+map_Ns Interior2091_spec.png
+
+newmtl Csb1Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.147981 0.145991 0.152005 
+
+d 1
+
+Ns 0
+
+newmtl Interioremissive0041Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.396078 0.396078 0.396078 
+
+d 1
+
+Ns 0
+
+map_Ka Interioremissive0041_diff.png
+map_Kd Interioremissive0041_diff.png
+map_d Interioremissive0041_diff.png
+
+newmtl Badge0031Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.0322335 0.0318 0.03311 
+
+d 1
+
+Ns 255
+
+map_Ka Badge0031_diff.png
+map_Kd Badge0031_diff.png
+map_d Badge0031_diff.png
+
+map_Bump Badge0031_nmap.png
+
+map_Ns Badge0031_spec.png
+
+newmtl Light0101Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.396078 0.396078 0.396078 
+
+d 1
+
+Ns 0
+
+map_Ka Ln1_diff.png
+map_Kd Ln1_diff.png
+map_d Ln1_diff.png
+
+newmtl Ln2Mtl
+Material Color
+Ka 0.180144 0 0
+Kd 0.180144 0 0
+Ks 0.0713513 0 0 
+
+d 1
+
+Ns 0
+
+newmtl Secondary1Mtl
+Material Color
+Ka 0.0915184 0.0134734 0.0134734
+Kd 0.0915184 0.0134734 0.0134734
+Ks 0.0362484 0.00533652 0.00533652 
+
+d 1
+
+Ns 0
+
+newmtl Ln1Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.0627451 0.0627451 0.0627451 
+
+d 1
+
+Ns 0
+
+map_Ka Ln1_diff.png
+map_Kd Ln1_diff.png
+map_d Ln1_diff.png
+
+newmtl PatternColor3Mtl
+Material Color
+Ka 0.0265487 0.0265487 0.0265487
+Kd 0.0265487 0.0265487 0.0265487
+Ks 0.00229047 0.00229047 0.00229047 
+
+d 1
+
+Ns 255
+
+map_Bump PatternColor1_nmap.png
+
+map_Ns PatternColor1_spec.png
+
+newmtl Paint11Mtl
+Material Color
+Ka 0.940601 0.940601 0.940601
+Kd 0.940601 0.940601 0.940601
+Ks 0.0811499 0.0811499 0.0811499 
+
+d 1
+
+Ns 255
+
+map_Ns Rollcage2_spec.png
+
+newmtl Coloured0001Mtl
+Material Color
+Ka 0.163641 0.160444 0.166872
+Kd 0.163641 0.160444 0.166872
+Ks 0.014118 0.0138422 0.0143968 
+
+d 1
+
+Ns 255
+
+map_Ns Rollcage1_spec.png
+
+newmtl Rollcage1Mtl
+Material Color
+Ka 0.124741 0.113921 0.121986
+Kd 0.124741 0.113921 0.121986
+Ks 0.010762 0.00982847 0.0105243 
+
+d 0.603922
+
+Ns 255
+
+map_Ns Rollcage1_spec.png
+
+newmtl Interior0481Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.0322335 0.0318 0.03311 
+
+d 1
+
+Ns 255
+
+map_Ka Interior0481_diff.png
+map_Kd Interior0481_diff.png
+map_d Interior0481_diff.png
+
+map_Bump Interior0481_nmap.png
+
+map_Ns Interior0481_spec.png
+
+newmtl PatternColor1Mtl
+Material Color
+Ka 0.0915184 0.0134734 0.0134734
+Kd 0.0915184 0.0134734 0.0134734
+Ks 0.0078957 0.00116241 0.00116241 
+
+d 1
+
+Ns 255
+
+map_Bump PatternColor1_nmap.png
+
+map_Ns PatternColor1_spec.png
+
+newmtl Coloured0052Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.396078 0.396078 0.396078 
+
+d 1
+
+Ns 0
+
+map_Ka Coloured0052_diff.png
+map_Kd Coloured0052_diff.png
+map_d Coloured0052_diff.png
+
+newmtl Usagemeral2Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.396078 0.396078 0.396078 
+
+d 1
+
+Ns 0
+
+map_Ka Usagemeral2_diff.png
+map_Kd Usagemeral2_diff.png
+map_d Usagemeral2_diff.png
+
+newmtl Usagemeral1Mtl
+Material Color
+Ka 0.00258583 0.00258583 0.00258583
+Kd 0.00258583 0.00258583 0.00258583
+Ks 0.00102419 0.00102419 0.00102419 
+
+d 1
+
+Ns 0
+
+newmtl Paint21Mtl
+Material Color
+Ka 0.940601 0.940601 0.940601
+Kd 0.940601 0.940601 0.940601
+Ks 0.0811499 0.0811499 0.0811499 
+
+d 0.603922
+
+Ns 255
+
+map_Ns Rollcage1_spec.png
+
+newmtl Caliperlf0021Mtl
+Material Color
+Ka 0.867136 0.487765 0.0356144
+Kd 0.867136 0.487765 0.0356144
+Ks 0.0748117 0.0420817 0.00307261 
+
+d 1
+
+Ns 255
+
+map_Bump Caliperlf0021_nmap.png
+
+map_Ns Caliperlf0021_spec.png
+
+newmtl Rollcage2Mtl
+Material Color
+Ka 0.124741 0.113921 0.121986
+Kd 0.124741 0.113921 0.121986
+Ks 0.010762 0.00982847 0.0105243 
+
+d 1
+
+Ns 255
+
+map_Ns Rollcage2_spec.png
+
+newmtl Seatbelt0021Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.396078 0.396078 0.396078 
+
+d 1
+
+Ns 0
+
+map_Ka Seatbelt0021_diff.png
+map_Kd Seatbelt0021_diff.png
+map_d Seatbelt0021_diff.png
+
+newmtl Paint2Mtl
+Material Color
+Ka 0.867136 0.487765 0.0356144
+Kd 0.867136 0.487765 0.0356144
+Ks 0.343454 0.193193 0.0141061 
+
+d 1
+
+Ns 0
+
+newmtl Caliperlf0011Mtl
+Material Color
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.0392157 0.0392157 0.0392157 
+
+d 1
+
+Ns 0
+
+map_Ka Caliperlf0011_diff.png
+map_Kd Caliperlf0011_diff.png
+map_d Caliperlf0011_diff.png
+
+newmtl W1Mtl
+Material Color
+Ka 0.940601 0.940601 0.940601
+Kd 0.940601 0.940601 0.940601
+Ks 0.0811499 0.0811499 0.0811499 
+
+d 1
+
+Ns 255
+
+map_Ka W1_diff.png
+map_Kd W1_diff.png
+map_d W1_diff.png
+
+newmtl Cupper1Mtl
+Material Color
+Ka 0.940601 0.940601 0.940601
+Kd 0.940601 0.940601 0.940601
+Ks 0.372552 0.372552 0.372552 
+
+d 0.501961
+
+Ns 0
+
+newmtl Springtop1Mtl
+Material Color
+Ka 0.560499 0.0169881 0.00775103
+Kd 0.560499 0.0169881 0.00775103
+Ks 0.222002 0.0067286 0.00307001 
+
+d 0.501961
+
+Ns 0
+
+newmtl Trim1Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.0322335 0.0318 0.03311 
+
+d 1
+
+Ns 255
+
+map_Ka Trim1_diff.png
+map_Kd Trim1_diff.png
+map_d Trim1_diff.png
+
+map_Bump Wheel01lf0161_nmap.png
+
+map_Ns Wheel01lf0161_spec.png
+
+newmtl Upperarm1Mtl
+Material Color
+Ka 0.121986 0.0143105 0.645555
+Kd 0.121986 0.0143105 0.645555
+Ks 0.0483159 0.00566809 0.255691 
+
+d 0.501961
+
+Ns 0
+
+newmtl Hub1Mtl
+Material Color
+Ka 1 0.133209 0.612066
+Kd 1 0.133209 0.612066
+Ks 0.396078 0.052761 0.242426 
+
+d 0.501961
+
+Ns 0
+
+newmtl Upperarmb1Mtl
+Material Color
+Ka 1 0.442323 0
+Kd 1 0.442323 0
+Ks 0.396078 0.175195 0 
+
+d 0.501961
+
+Ns 0
+
+newmtl Interioremissive1Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.0322335 0.0318 0.03311 
+
+d 1
+
+Ns 255
+
+map_Ka Interioremissive1_diff.png
+map_Kd Interioremissive1_diff.png
+map_d Interioremissive1_diff.png
+
+newmtl Tire1Mtl
+Material Color
+Ka 0.00258583 0.00258583 0.00258583
+Kd 0.00258583 0.00258583 0.00258583
+Ks 0.000223091 0.000223091 0.000223091 
+
+d 1
+
+Ns 255
+
+map_Bump Wheel01lf0161_nmap.png
+
+map_Ns Wheel01lf0161_spec.png
+
+newmtl Paint1Mtl
+Material Color
+Ka 0.0915184 0.0134734 0.0134734
+Kd 0.0915184 0.0134734 0.0134734
+Ks 0.0078957 0.00116241 0.00116241 
+
+d 1
+
+Ns 255
+
+map_Bump Wheel01lf0161_nmap.png
+
+map_Ns Wheel01lf0161_spec.png
+
+newmtl Wheel01lf0161Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.0322335 0.0318 0.03311 
+
+d 1
+
+Ns 255
+
+map_Ka Wheel01lf0161_diff.png
+map_Kd Wheel01lf0161_diff.png
+map_d Wheel01lf0161_diff.png
+
+map_Bump Wheel01lf0161_nmap.png
+
+map_Ns Wheel01lf0161_spec.png
+
