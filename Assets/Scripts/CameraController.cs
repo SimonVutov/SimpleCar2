@@ -1,7 +1,7 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class camera : MonoBehaviour
+[RequireComponent(typeof(Camera))]
+public class CameraController : MonoBehaviour
 {
     [Header("Input Settings")]
     public InputActions input;
@@ -24,7 +24,6 @@ public class camera : MonoBehaviour
     private bool isFreeCam = false; // Toggle between free cam and follow cam
 
     private Camera cam; // Reference to the Camera component
-    Vector3 smoothPosition = Vector3.zero; // For smooth camera movement
     Vector3 followVelocity = Vector3.zero; // Reference for SmoothDamp
     public float followSmoothTime = 0.05f;   // how “springy” the camera feels
     public Vector3 followOffset   = new Vector3(0, 2.2f, -7f);
@@ -55,21 +54,19 @@ public class camera : MonoBehaviour
 
 
 
+    void OnDestroy()
+    {
+        input?.Dispose();
+    }
+
     void Start()
     {
         //adjust camera near clipping
-        Camera.main.nearClipPlane = 0.01f;
+        cam = GetComponent<Camera>();
+        cam.nearClipPlane = 0.01f;
         if (target == null)
         {
-            //Debug.LogError("Target not set for CameraController. Please set a target GameObject in the Inspector.");
-            enabled = false;
-            return;
-        }
-
-        cam = GetComponent<Camera>();
-        if (cam == null)
-        {
-            Debug.LogError("CameraController requires a Camera component on the same GameObject.");
+            Debug.LogError("CameraController requires a target transform.", this);
             enabled = false;
             return;
         }
@@ -87,9 +84,23 @@ public class camera : MonoBehaviour
         // Toggle between free cam and follow cam on pressing 'C'
         if (Input.GetKeyDown(KeyCode.C))
         {
+            currentX = transform.eulerAngles.y;
+            currentY = Mathf.DeltaAngle(0f, transform.eulerAngles.x);
             isFreeCam = !isFreeCam;
             Cursor.lockState = isFreeCam ? CursorLockMode.None : CursorLockMode.Locked;
             Cursor.visible = isFreeCam;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else if (!isFreeCam && Input.GetMouseButtonDown(0) &&
+                 (Input.mousePosition.x < Screen.width - 282 || Input.mousePosition.y < Screen.height - 280))
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
         // Adjust camera FOV with scroll wheel
@@ -102,10 +113,10 @@ public class camera : MonoBehaviour
         
     }
 
-    void FixedUpdate()
+    void UpdateChaseCamera()
     {
         cameraInput = cameraInput.magnitude > 0.3f ? cameraInput.normalized : Vector2.zero;
-        if (!justFollow) return;
+        if (target == null) return;
 
         Vector3 desired = target.position + target.TransformDirection(new Vector3(followOffset.z * cameraInput.x, followOffset.y, followOffset.z * (cameraInput.y == 0 ? 1 : -cameraInput.y)));
 
@@ -117,18 +128,18 @@ public class camera : MonoBehaviour
             transform.rotation,
             Quaternion.LookRotation(
                 target.position + Vector3.up * 1.2f - transform.position),
-            Time.fixedDeltaTime * 10f);
+            Time.deltaTime * 10f);
     }
 
     void LateUpdate()
     {
-        if (justFollow)
-        {
-            return;
-        }
         if (isFreeCam)
         {
             FreeCamMode();
+        }
+        else if (justFollow)
+        {
+            UpdateChaseCamera();
         }
         else
         {

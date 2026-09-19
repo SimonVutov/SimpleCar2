@@ -1,0 +1,6 @@
+{
+  "name": "SimpleCar2.Runtime",
+  "references": [
+    "Unity.InputSystem"
+  ]
+}

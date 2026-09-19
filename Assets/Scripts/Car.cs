@@ -1,12 +1,6 @@
 using System;
 using UnityEngine;
-using System.Collections.Generic;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
-
-// todo:
-// braking should be 0-1 float not bool
-// w.torque shoudl be part of engine, not wheel
 
 [Serializable]
 public class Engine
@@ -43,7 +37,7 @@ public class Engine
         if (float.IsNaN(averageWheelAngularVelocity) || float.IsInfinity(averageWheelAngularVelocity))
             averageWheelAngularVelocity = 0f;
             
-        float averageWheelRPM = (averageWheelAngularVelocity * 60f) / (2f * Mathf.PI);
+        float averageWheelRPM = (Mathf.Abs(averageWheelAngularVelocity) * 60f) / (2f * Mathf.PI);
         float totalRatio = Math.Abs(gearRatios[currentGear] * finalDriveRatio);
         float transmissionRPM = averageWheelRPM * totalRatio;
         float targetRPM = Mathf.Max(idleRPM, transmissionRPM);
@@ -122,7 +116,7 @@ public class Engine
     // Enhanced gear shifting logic for Koenigsegg
     public void checkGearSwitching(MonoBehaviour context, float throttle)
     {
-        if (switchingGears) return;
+        if (!automaticTransmission || switchingGears) return;
 
         // Safety override: Always try to shift up if RPM is too high (prevent rev limiter)
         if (rpm > maxRPM * 0.91f && currentGear < gearRatios.Length - 1)
@@ -274,6 +268,7 @@ public class WheelProperties
     [HideInInspector] public float xSlipAngle = 0f; // Slip in X direction in degrees (5 degrees for example when slightly slipping)
 }
 
+[RequireComponent(typeof(Rigidbody))]
 public class Car : MonoBehaviour
 {
     public bool motorCycleControl = false;
@@ -299,7 +294,7 @@ public class Car : MonoBehaviour
     public float brakingWingSpeed = 8f; // Speed of wing animation
     [HideInInspector] public float currentWingAngle = 0f;
     public InputActions input;
-    public Engine e;
+    public Engine e = new Engine();
     public GameObject skidMarkPrefab;
     public float smoothTurn = 0.03f;
     float coefStaticFriction = 0.95f;
@@ -334,6 +329,23 @@ public class Car : MonoBehaviour
 
     void Start()
     {
+        if (e == null || wheels == null || wheels.Length == 0 || wheelPrefab == null || wheelPrefab.transform.childCount == 0)
+        {
+            Debug.LogError("Car requires an engine, wheels, and a wheel prefab with a visual child.", this);
+            enabled = false;
+            return;
+        }
+        if (Array.Exists(wheels, w => w == null || w.mass <= 0f || w.size <= 0f) ||
+            e.gearRatios == null || e.gearRatios.Length == 0 || Array.Exists(e.gearRatios, ratio => ratio <= 0f) ||
+            e.finalDriveRatio <= 0f || e.idleRPM < 0f || e.maxRPM <= e.idleRPM)
+        {
+            Debug.LogError("Car has invalid wheel dimensions or engine ratios/RPM limits.", this);
+            enabled = false;
+            return;
+        }
+        e.peakPowerRPM = Mathf.Clamp(e.peakPowerRPM, e.idleRPM + (e.maxRPM - e.idleRPM) * 0.01f, e.maxRPM - (e.maxRPM - e.idleRPM) * 0.01f);
+        if (skidMarkPrefab != null && skidMarkPrefab.GetComponent<TrailRenderer>() == null)
+            skidMarkPrefab = null;
         rb = GetComponent<Rigidbody>();
         if (!rb) rb = gameObject.AddComponent<Rigidbody>();
 
@@ -390,10 +402,16 @@ public class Car : MonoBehaviour
     }
     private void OnDisable()
     {
-        move.Disable();
-        Throttle.Disable();
-        Hand.Disable();
-        Steer.Disable();
+        input?.Disable();
+        userInput = Vector2.zero;
+    }
+
+    private void OnDestroy()
+    {
+        input?.Dispose();
+        if (wheels == null) return;
+        foreach (var wheel in wheels)
+            if (wheel?.skidTrail != null) Destroy(wheel.skidTrail.gameObject);
     }
 
     void Update()
@@ -532,8 +550,7 @@ public class Car : MonoBehaviour
                 // Combine lean-based steering with slight user input for responsiveness
                 w.input.x = Mathf.Lerp(w.input.x, -leanSteering / (1 + Mathf.Max(0, rb.velocity.magnitude - 2f) / 3f), Time.deltaTime * 60f);
             }
-            // if (w.slip > 1.0f && steeringAssist) w.input.x = Mathf.Clamp(w.xSlipAngle / w.turnAngle, -1f, 1f);
-            if (w.slip > 1.0f && steeringAssist) w.input.x = Mathf.Lerp(w.input.x, w.xSlipAngle / w.turnAngle, Time.deltaTime);
+            if (w.slip > 1.0f && steeringAssist && Mathf.Abs(w.turnAngle) > 0.001f) w.input.x = Mathf.Lerp(w.input.x, w.xSlipAngle / w.turnAngle, Time.deltaTime);
 
             // Apply throttle with TCS - more responsive for F1
             float finalThrottle = userInput.y * (1f - w.tcsReduction);
@@ -554,18 +571,12 @@ public class Car : MonoBehaviour
             // Clamp input values to reasonable range
             w.input.x = Mathf.Clamp(w.input.x, -1f, 1f);
             w.input.y = Mathf.Clamp(w.input.y, -1f, 1f);
-            
-            // Debug input values to verify they're working
-            if (Time.time % 1f < 0.1f && i == 0) // Log once per second for first wheel only
-            {
-                Debug.Log($"Input Debug - userInput: {userInput}, wheel input: {w.input}, TCS: {w.tcsReduction}, steerReduction: {w.steeringReduction}");
-            }
         }
 
         if (Input.GetKeyDown(KeyCode.E)) e.UpGear(this);
-        else if (Input.GetKeyDown(KeyCode.D)) e.DownGear(this);
+        else if (Input.GetKeyDown(KeyCode.Q)) e.DownGear(this);
 
-        e.checkGearSwitching(this, throttleInput);
+        e.checkGearSwitching(this, Mathf.Max(0f, userInput.y));
 
         // Update audio values
         if (audioController != null)
@@ -617,6 +628,7 @@ public class Car : MonoBehaviour
 
         rb.AddForceAtPosition(-0.9f * transform.right * transform.InverseTransformDirection(rb.velocity).x, transform.position + transform.TransformDirection(new Vector3(0, 0, -1.5f * restoreStrength)), ForceMode.Acceleration);
         rb.AddForceAtPosition(-0.9f * transform.up * transform.InverseTransformDirection(rb.velocity).y, transform.position + transform.TransformDirection(new Vector3(0, 0, -1.5f * restoreStrengthY)), ForceMode.Acceleration);
+        forwards = transform.InverseTransformDirection(rb.velocity).z > 0.1f;
         float averageWheelAngularVelocity = 0f;
         foreach (var w in wheels)
         {
@@ -637,54 +649,47 @@ public class Car : MonoBehaviour
             w.wheelWorldPosition = transform.TransformPoint(w.localPosition);
             Vector3 velocityAtWheel = rb.GetPointVelocity(w.wheelWorldPosition);
             w.localVelocity = wheelObj.InverseTransformDirection(velocityAtWheel);
-            forwards = w.localVelocity.z > 0.1f;
             
             // Debug torque calculation components
             float enginePower = e.GetCurrentPower(this);
             float gearRatio = e.GetCurrentTotalGearRatio();
             w.torque = w.engineTorque * w.input.y * enginePower * gearRatio;
             
-            // Debug logging for torque components
-            if (w.torque == 0f)
-            {
-                Debug.Log($"Torque Debug - engineTorque: {w.engineTorque}, input.y: {w.input.y}, enginePower: {enginePower}, gearRatio: {gearRatio}, RPM: {e.getRPM()}");
-            }
-
             float inertia = w.mass * w.size * w.size / 2f;
             float lateralVel = w.localVelocity.x;
 
-            bool grounded = Physics.Raycast(w.wheelWorldPosition, -transform.up, out hit, rayLen);
-            Vector3 worldVelAtHit = rb.GetPointVelocity(hit.point);
+            bool grounded = Physics.Raycast(w.wheelWorldPosition, -transform.up, out hit, rayLen, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
+            if (grounded)
+            {
+                float compression = rayLen - hit.distance;
+                float damping = (w.lastSuspensionLength - hit.distance) * dampAmount;
+                w.normalForce = Mathf.Clamp((compression + damping) * suspensionForce, 0f, suspensionForceClamp);
+                w.lastSuspensionLength = hit.distance;
+            }
+            else
+            {
+                w.normalForce = 0f;
+                w.lastSuspensionLength = rayLen;
+                w.suspensionForceDirection = Vector3.zero;
+            }
+            Vector3 worldVelAtHit = grounded ? rb.GetPointVelocity(hit.point) : Vector3.zero;
             float lateralHitVel = wheelObj.InverseTransformDirection(worldVelAtHit).x;
 
             float lateralFriction = -wheelGripX * lateralVel - 2f * lateralHitVel;
-            float longitudinalFriction = -wheelGripZ * (w.localVelocity.z - w.angularVelocity * w.size);
+            float longitudinalFriction = grounded ? -wheelGripZ * (w.localVelocity.z - w.angularVelocity * w.size) : 0f;
 
-            // Calculate rolling resistance torque (applied per wheel)
-            float rollingResistanceTorque = 0f;
-            if (motorCycleControl && w.normalForce < (9.81f * w.mass * 0.3f)) userInput.y = 0f;
-            if (grounded)
-            {
-                // Rolling resistance is proportional to normal force on this wheel
-                float rollingResistanceForce = this.rollingResistanceCoeff * w.normalForce;
-                rollingResistanceTorque = rollingResistanceForce * w.size;
-                // Apply opposing torque based on wheel rotation direction
-                rollingResistanceTorque *= -Mathf.Sign(w.angularVelocity);
-            }
-
-            w.angularVelocity += (w.torque - longitudinalFriction * w.size - rollingResistanceTorque) / inertia * Time.fixedDeltaTime;
-            w.angularVelocity *= 1 - w.braking * w.brakeStrength * Time.fixedDeltaTime;
-            if (handbrakeInput > 0.5f) // Handbrake
-            {
-                w.angularVelocity = 0;
-            }
+            float resistance = grounded ? Mathf.Max(0f, rollingResistanceCoeff * w.normalForce * w.size) : 0f;
+            w.angularVelocity += (w.torque - longitudinalFriction * w.size) / inertia * Time.fixedDeltaTime;
+            w.angularVelocity = WheelDynamics.ApplyResistance(w.angularVelocity, resistance, inertia, Time.fixedDeltaTime);
+            w.angularVelocity *= Mathf.Clamp01(1f - w.braking * w.brakeStrength * Time.fixedDeltaTime);
+            if (handbrakeInput > 0.5f) w.angularVelocity = 0f;
 
             Vector3 totalLocalForce = new Vector3(lateralFriction, 0f, longitudinalFriction)
                 * w.normalForce * coefStaticFriction * coefFrictionMultiplier * Time.fixedDeltaTime;
             float currentMaxFrictionForce = w.normalForce * coefStaticFriction * coefFrictionMultiplier;
 
             w.slidding = totalLocalForce.magnitude > currentMaxFrictionForce;
-            w.slip = totalLocalForce.magnitude / currentMaxFrictionForce;
+            w.slip = WheelDynamics.SlipRatio(totalLocalForce.magnitude, currentMaxFrictionForce);
             totalLocalForce = Vector3.ClampMagnitude(totalLocalForce, currentMaxFrictionForce);
             totalLocalForce *= w.slidding ? (coefKineticFriction / coefStaticFriction) : 1;
 
@@ -720,11 +725,6 @@ public class Car : MonoBehaviour
 
             if (grounded)
             {
-                float compression = rayLen - hit.distance;
-                float damping = (w.lastSuspensionLength - hit.distance) * dampAmount;
-                w.normalForce = (compression + damping) * suspensionForce;
-                w.normalForce = Mathf.Clamp(w.normalForce, 0f, suspensionForceClamp);
-
                 Vector3 springDir = hit.normal * w.normalForce;
                 w.suspensionForceDirection = springDir;
 

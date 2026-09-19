@@ -1,0 +1,12 @@
+{
+  "name": "SimpleCar2.Tests.EditMode",
+  "references": [
+    "SimpleCar2.Runtime"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "SimpleCar2.Tests.PlayMode",
+  "references": [
+    "SimpleCar2.Runtime",
+    "Unity.InputSystem"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
+}

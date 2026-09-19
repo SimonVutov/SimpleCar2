@@ -1,6 +1,6 @@
-using System;
 using UnityEngine;
 
+[RequireComponent(typeof(Car))]
 public class VisualWheelUI : MonoBehaviour
 {
     [Header("Layout Settings")]
@@ -52,6 +52,12 @@ public class VisualWheelUI : MonoBehaviour
         CreateGUIStyles();
     }
     
+    void OnDestroy()
+    {
+        if (dotTexture != null) Destroy(dotTexture);
+        if (backgroundStyle?.normal.background != null) Destroy(backgroundStyle.normal.background);
+    }
+
     void CalculateWheelPositions()
     {
         wheelPositions = new Vector2[car.wheels.Length];
@@ -132,6 +138,8 @@ public class VisualWheelUI : MonoBehaviour
     
     void OnGUI()
     {
+        if (car == null || car.rb == null || backgroundStyle == null || wheelSlip == null) return;
+
         // Update wheel slip data
         UpdateWheelData();
         
@@ -287,7 +295,7 @@ public class VisualWheelUI : MonoBehaviour
             
             DrawWheelLine(wheelCenter, steerAngle, throttleInput, wheelColor);
 
-            float slipAngle = car.wheels[i].xSlipAngle;
+            float slipAngle = car.wheels[i].xSlipAngle * Mathf.Deg2Rad;
 
                 DrawWheelLine(wheelCenter, slipAngle, 0.6f, wheelColor);
             
