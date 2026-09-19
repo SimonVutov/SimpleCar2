@@ -77,6 +77,8 @@ public class VehicleTests
             {
                 Assert.That(car.enabled, Is.True, scene + ": " + car.name);
                 Assert.That(car.rb, Is.Not.Null);
+                Assert.That(car.rb.interpolation, Is.EqualTo(RigidbodyInterpolation.Interpolate),
+                    scene + ": vehicle rendering must be interpolated for the LateUpdate camera");
                 Assert.That(float.IsNaN(car.rb.velocity.sqrMagnitude), Is.False);
                 foreach (var wheel in car.wheels)
                 {

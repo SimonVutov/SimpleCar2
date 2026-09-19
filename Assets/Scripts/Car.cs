@@ -348,6 +348,8 @@ public class Car : MonoBehaviour
             skidMarkPrefab = null;
         rb = GetComponent<Rigidbody>();
         if (!rb) rb = gameObject.AddComponent<Rigidbody>();
+        // Match the rendered vehicle pose to the camera following it in LateUpdate.
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
 
         foreach (var w in wheels)
         {
