@@ -16,3 +16,9 @@ MemoryCaptures/
 # OS specific files
 .DS_Store
 Thumbs.db
+
+TestResults/
+*.log
+*.user
+*.suo
+.vs/
