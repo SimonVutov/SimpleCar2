@@ -23,10 +23,10 @@ controller implementation.
 
 1. Install **Unity 2022.3.29f1** through Unity Hub and activate your Unity license.
    The version is pinned in `ProjectSettings/ProjectVersion.txt`.
-2. Clone the tested branch (assets are approximately 1.1 GB):
+2. Clone the repository (assets are approximately 1.1 GB):
 
    ```sh
-   git clone --depth 1 --branch codex/portfolio-polish https://github.com/SimonVutov/SimpleCar2.git
+   git clone --depth 1 https://github.com/SimonVutov/SimpleCar2.git
    ```
 
 3. In Unity Hub, choose **Add project from disk**, select `SimpleCar2`, and open it
@@ -35,8 +35,7 @@ controller implementation.
    and `Offroad.unity` provide alternative vehicle/environment setups.
 5. Press **Esc** to release the cursor and use the top-right scene/controls panel.
 
-After the polish branch is merged into `main`, the clone command can omit
-`--branch codex/portfolio-polish`. Keep **Active Input Handling = Both** in Player
+Keep **Active Input Handling = Both** in Player
 Settings: driving uses the Input System, while camera/reset/shift shortcuts use
 Unity's legacy input API. The checked-in project already has this setting.
 
